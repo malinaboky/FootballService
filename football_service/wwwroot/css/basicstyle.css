@@ -1,0 +1,31 @@
+﻿body {
+    scroll-behavior: smooth;
+    text-rendering: optimizeSpeed;
+    line-height: 1.5;
+    margin: 0;
+    background-color: white;
+    display: block;
+    font-family: 'Open Sans', 'Helvetica Neue', 'Segoe UI', 'Calibri', 'Arial', sans-serif;
+}
+
+.button {
+    background: white;
+    cursor: pointer;
+    border: 2px solid #F34F4F;
+    border-radius: 50px;
+    color: #F34F4F;
+    padding: 0;
+    font-weight: bold;
+}
+
+.button:hover {
+    color: white;
+    font-weight: bold;
+    background-color: #F34F4F;
+    transition: 0.2s;
+    padding: 0;
+}
+
+.hide {
+    display: none;
+}

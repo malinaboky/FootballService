@@ -1,0 +1,51 @@
+﻿@using FootballService.Models
+@model FootballService.DTO.EditPlayerDTO
+
+@{
+    var countryDic = new Dictionary<string, string> {
+        { "USA", "США"},
+        {"Russia", "Россия"},
+        {"Italy", "Италия"}
+    };
+
+    var sexDic = new Dictionary<string, string> {
+        {"Male", "Мужской"},
+        {"Female", "Женский"}
+    };
+
+    long id = (long)Model.Id;
+    var playerId = $"edit{id}";
+    var addId = $"add{id}";
+    var deleteId = $"delete{id}";
+    var successId = $"success{id}";
+
+    var birthday = Model.Birthday.ToShortDateString();
+    IEnumerable<SelectListItem> list = ViewBag.Teams as SelectList;
+    var country = Enum.Parse(typeof(Country), Model.Country);
+}
+
+<td class="text-inf">
+    <input type="text" asp-for="Name" name="Name" value="@Model.Name" onchange="GetChanges('@addId')" />
+</td>
+<td class="text-inf">
+    <input type="text" asp-for="Surname" name="Surname" value="@Model.Surname" onchange="GetChanges('@addId')" />
+</td>
+<td class="select-inf">
+    @Html.DropDownList("Sex", Html.GetEnumSelectList(typeof(Sex)), sexDic[Model.Sex], new { @onchange = $"GetChanges('{addId}')" })
+</td>
+<td class="select-inf">
+    @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control",  @onchange = $"GetChanges('{addId}')" } })
+</td>
+<td class="select-inf">
+    @Html.DropDownList("TeamId", list, new { @onchange =  $"GetChanges('{addId}')"})
+</td>
+<td class="select-inf">
+    @Html.DropDownList("Country", Html.GetEnumSelectList(typeof(Country)), countryDic[Model.Country], new { @onchange = $"GetChanges('{addId}')" })
+</td>
+<td class="button-panel">
+    <input value="ok" class="add-button button" id="@addId" type="hidden" title="Сохранить изменения" onclick="SaveChanges('@playerId', @id)">
+    <input value="×" class="delete-button button" id="@deleteId" type="button" title="Удалить игрока" onclick="Delete('@playerId', @id)">
+</td>
+
+<script src="~/js/edit.js"></script>
+<script src="~/js/jquery-3.5.0.js"></script>

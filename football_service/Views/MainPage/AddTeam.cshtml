@@ -1,0 +1,36 @@
+﻿@using Microsoft.AspNetCore.Http
+@model FootballService.DTO.TeamDTO
+
+@{
+    SelectList list = ViewBag.TeamdId;
+}
+
+ <div id="new-team">
+    <div class="list-team">
+        <div class="row-name">
+            <label>Команда:</label>
+        </div>
+        @Html.DropDownList("TeamId", list, new { @class = "field"})
+    </div>
+    <input value="+" class="button team-button" type="button" onclick="addNewTeam()">
+    @Html.ValidationMessageFor(model => model.NewTeam, "", new { @class = "text-danger", @id = "danger" })
+    <span class="hide" id="error"></span>
+</div>
+
+<div id="add-new-team" class="hide">
+    <div class="list-team">
+        <div class="row-name">
+            <label>Введите название команды:</label>
+        </div>
+        <input type="text" asp-for="NewTeam" name="NewTeam" id="text-team" class="field"/>
+    </div>
+    <input value="×" class="button team-button" type="button" onclick="deleteNewTeam()">
+    <div class="form-button form-row">
+        <br />
+        <input value="Добавить" class="button submit-button" type="button" onclick="AddTeam()">
+    </div>
+</div>
+
+
+<script src="~/js/main.js"></script>
+<script src="~/js/jquery-3.5.0.js"></script>

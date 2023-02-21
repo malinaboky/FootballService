@@ -1,0 +1,101 @@
+﻿@model FootballService.DTO.PLayerDTO
+@using FootballService.Models
+@using Microsoft.AspNetCore.Http
+
+
+<link type="text/css" href="~/css/mainpage.css" rel="stylesheet" />
+<link type="text/css" href="~/css/basicstyle.css" rel="stylesheet" />
+
+@{
+    var name = string.Empty;
+    var surname = string.Empty;
+
+    if (HttpMethods.IsPost(Context.Request.Method) && ViewBag.SuccessMessage == null)
+    {
+        name = Context.Request.Form["name"];
+        surname = Context.Request.Form["surname"];
+    }
+ }
+
+ <head runat="server">
+    <title>Add player form</title>
+</head>
+
+<body>
+    <div id="success">
+        @if (ViewBag.SuccessMessage != null)
+        {
+            <p>
+                @ViewBag.SuccessMessage
+            </p>
+        }
+    </div>
+    <div class="form-back">
+        <div class="form-title">
+            <label class="title">Добавление игрока в команду</label>
+        </div>
+        <form method="post" asp-controller="MainPage" class="add-form">
+            <div class="form-row">
+                <div class="row-name">
+                    <label>Имя:</label>
+                </div>
+                <input type="text" class="field" asp-for="Name" name="Name" value="@name" />
+                <br />
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+            <br />
+            <div class="form-row">
+                <div class="row-name">
+                    <label>Фамилия:</label>
+                </div>
+                <input type="text" class="field" asp-for="Surname" name="Surname" value="@surname" />
+                <br />
+                @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+            </div>
+            <br />
+            <div class="form-row" id="add-team-container">
+                @await Html.PartialAsync("~/Views/MainPage/AddTeam.cshtml")
+                @Html.ValidationMessageFor(model => model.TeamId, "", new { @class = "text-danger" })
+            </div>
+            <br />
+            <div class="form-row">
+                <div class="row-name">
+                    <label>Пол:</label>
+                </div>
+                @Html.DropDownList("Sex", Html.GetEnumSelectList(typeof(Sex)), string.Empty, new { @class = "field" } )
+                <br />
+                @Html.ValidationMessageFor(model => model.Sex, "", new { @class = "text-danger" })
+            </div>
+            <br />
+            <div class="form-row">
+                <div class="row-name">
+                    <label>Страна:</label>
+                </div>
+                @Html.DropDownList("Country", Html.GetEnumSelectList(typeof(Country)), string.Empty, new { @class = "field" } )
+                <br />
+                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+            </div>
+            <br />
+            <div class="form-row form-data">
+                <div class="row-name">
+                    <label>Дата рождения:</label>
+                </div>
+                @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control" } })
+                <br />
+                @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
+            </div>
+            <br />
+            <div class="form-button form-row">
+                <input type="submit" value="Отправить" class="button submit-button" />
+            </div>
+        </form>
+        <div class="redirect-button">
+            <input type='button' class="redirect-button button" value='Перейти к таблице игроков' 
+            onclick='window.location = "@Url.Action("GetList", "Players")";' />
+        </div>     
+    </div>
+</body>
+
+
+<script src="~/js/main.js"></script>
+<script src="~/js/jquery-3.5.0.js"></script>

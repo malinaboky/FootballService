@@ -1,0 +1,18 @@
+﻿@using FootballService.ErrorResponse
+
+
+@{
+	CustomErrorResponse error = ViewBag.Error;
+}
+
+<link type="text/css" href="~/css/error.css" rel="stylesheet" />
+
+<head runat="server">
+ <title>Error</title>
+</head>
+
+<div id="panel">
+	<p id="code">@error.Code</p>
+	<p id="message">@error.Message</p>
+	<p>Пожалуйста, попробуйте позже.</p>
+</div>

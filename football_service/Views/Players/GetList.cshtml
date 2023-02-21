@@ -1,0 +1,82 @@
+﻿@model IEnumerable<IGrouping<long, FootballService.DTO.EditPlayerDTO>>
+
+<link type="text/css" href="~/css/editpage.css" rel="stylesheet" />
+<link type="text/css" href="~/css/basicstyle.css" rel="stylesheet" />
+
+<head runat="server">
+    <title>Player table</title>
+</head>
+
+<header>
+    <div id="success" class="message">
+        <p>Изменения сохранены</p>
+    </div>
+
+    <div id="server-error" class="message">
+        <p></p>
+    </div>
+
+    <div id="error" class="message">
+        <p id="error">Неправильный формат данныx:</p>
+        <ul>
+            <li>Имя должно состоять из букв русского(А-Я) или английского(A-Z) алфавит.а</li>
+            <li>Фамилия должна состоять из букв русского(А-Я) или английского(A-Z) алфавита.</li>
+            <li>Фамилия и имя дожны быть не длиннее 20 символов.</li>
+        </ul>
+    </div>
+
+</header>
+<body>
+    @if (Model.Count() == 0)
+    {
+        <div class="panel">
+            <p>В таблице нет ни одного игрока!</p>
+            <input class="first-add button" type='button' value='Добавить первого игрока'
+            onclick='window.location = "@Url.Action("AddPlayer", "MainPage")";' />
+        </div>    
+    }
+    else 
+    {
+        <table>
+            <tr class="title">
+                <th>
+                    Имя
+                </th>
+                <th>
+                    Фамилия
+                </th>
+                <th>
+                    Пол
+                </th>
+                <th>
+                    Дата рождения
+                </th>
+                <th>
+                    Команда
+                </th>
+                <th>
+                    Страна
+                </th>
+            </tr>
+             @foreach (var item in Model)
+                {
+                    <tbody>
+                        @foreach (var player in item)
+                        {
+                            var elId = $"edit{player.Id}";
+                            <tr id="@elId">
+                                @await Html.PartialAsync("~/Views/Players/EditPlayer.cshtml", player)
+                            </tr>
+                        }
+                    </tbody>
+                }
+            <tr>
+                <td colspan="6"></td>
+            </tr>
+        </table>
+        <div class="get-back-button">
+            <input type='button' class="get-back-button button" value='Назад' onclick='GetBack()' />
+        </div>
+    } 
+</body>
+
