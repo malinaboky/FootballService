@@ -8,7 +8,7 @@ namespace FootballService.DTO
     {
         public long Id { get; set; }
 
-        [RegularExpression(@"^[a-zA-Zа-яА-Я''-'\s]{1,21}$")]
+        [RegularExpression(@"^[a-zA-Zа''-'\s]{1,21}$")]
         [StringLength(20, ErrorMessage = "Слишком длинное имя")]
         public string Name { get; set; }
 
